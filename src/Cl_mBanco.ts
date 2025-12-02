@@ -1,0 +1,159 @@
+import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria.js";
+import { categoriasData } from "./_data.js";
+import Cl_mMovimiento, { iMovimiento } from "./Cl_mMovimiento.js";
+
+export default class Cl_mBanco {
+    private movimientos: Cl_mMovimiento[] = [];
+    private categorias: Cl_mCategoria[] = [];
+    private saldo: number = 0;
+
+    constructor() {
+        this.movimientos = [];
+        this.categorias = [];
+        this.saldo = 0;
+    }
+
+    addMovimiento({
+        dtmovimiento,
+        callback,
+    }: {
+        dtmovimiento: iMovimiento;
+        callback: (error: string | boolean) => void;
+    }): void {
+        let movimiento = new Cl_mMovimiento(dtmovimiento);
+
+        if (movimiento.movimientoOK !== true) {
+            callback(movimiento.movimientoOK as string);
+        } else {
+
+            movimiento.id = Date.now(); 
+            this.movimientos.push(movimiento);
+            this.procesarMovimientos(movimiento);
+            this.guardarEnLocalStorage();
+            callback(false);
+        }
+    }
+
+    editMovimiento({
+        dtmovimiento,
+        callback,
+    }: {
+        dtmovimiento: iMovimiento;
+        callback: (error: string | boolean) => void;
+    }): void {
+
+        if (!dtmovimiento.id) {
+            callback("ID del movimiento no encontrado.");
+            return;
+        }
+
+        let movimiento = new Cl_mMovimiento(dtmovimiento);
+
+        const validacion = movimiento.movimientoOK;
+        if (validacion !== true) {
+            callback(validacion as string);
+            return;
+        }
+
+        const index = this.movimientos.findIndex(m => m.id === dtmovimiento.id);
+        if (index !== -1) {
+
+            const oldMov = this.movimientos[index];
+            if (oldMov) {
+                this.saldo -= oldMov.montoOperacion();
+            }
+
+
+            this.movimientos[index] = movimiento;
+            
+
+            this.procesarMovimientos(movimiento);
+            this.guardarEnLocalStorage();
+            
+            callback(false);
+        } else {
+            callback("Movimiento no encontrado para editar.");
+        }
+    }
+
+    deleteMovimiento({
+        dtmovimiento,
+        callback,
+    }: {
+        dtmovimiento: iMovimiento;
+        callback: (error: string | boolean) => void;
+    }): void {
+        let indice = this.movimientos.findIndex((movimiento: Cl_mMovimiento) => movimiento.referencia === dtmovimiento.referencia);
+        if(indice === -1) callback(`El movimiento ${dtmovimiento.referencia} no existe.`);
+        else {
+            const movimiento = this.movimientos[indice];
+            if (movimiento) {
+                this.saldo -= movimiento.montoOperacion();
+                this.movimientos.splice(indice, 1);
+                this.guardarEnLocalStorage();
+                callback(false);
+            } else {
+                callback(`Error inesperado: El movimiento ${dtmovimiento.referencia} no se pudo recuperar.`);
+            }
+        }
+    }
+
+    procesarMovimientos(movimiento: Cl_mMovimiento){
+        this.saldo += movimiento.montoOperacion();
+    }
+
+    saldoTotal(): number {
+        return this.saldo;
+    }
+
+    cargarBanco(callback: (error: string | false) => void): void {
+
+        this.llenarCategorias(categoriasData);
+        this.cargarDeLocalStorage();
+
+        callback(false);
+    }
+
+    llenarCategorias(categorias: iCategoria[]) {
+        this.categorias = [];
+        categorias.forEach((categoria: iCategoria) => {
+            this.categorias.push(new Cl_mCategoria(categoria));
+        });
+    }
+
+    llenarMovimientos(movimientos: iMovimiento[]) {
+        this.movimientos = [];
+        this.saldo = 0;
+        movimientos.forEach((movimiento: iMovimiento) => {
+            let mov = new Cl_mMovimiento(movimiento);
+            this.movimientos.push(mov);
+            this.procesarMovimientos(mov);
+        });
+    }
+
+    listarMovimientos(): iMovimiento[] {
+        return this.movimientos.map((movimiento) => movimiento.toJSON());
+    }
+
+    listarCategorias(): iCategoria[] {
+        return this.categorias.map((categoria) => categoria.toJSON());
+    }
+
+    private guardarEnLocalStorage() {
+        localStorage.setItem('movimientos', JSON.stringify(this.listarMovimientos()));
+    }
+
+    private cargarDeLocalStorage() {
+        const movimientosStorage = localStorage.getItem('movimientos');
+        if (movimientosStorage) {
+            const movimientosJson = JSON.parse(movimientosStorage);
+            this.movimientos = [];
+            this.saldo = 0;
+            movimientosJson.forEach((mov: iMovimiento) => {
+                const nuevoMov = new Cl_mMovimiento(mov);
+                this.movimientos.push(nuevoMov);
+                this.procesarMovimientos(nuevoMov);
+            });
+        }
+    }
+}
