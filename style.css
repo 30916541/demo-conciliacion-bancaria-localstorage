@@ -21,7 +21,7 @@ body {
 
 h1 {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 2.5rem;
     text-align: center;
     border-bottom: 2px solid #5D4037;
@@ -31,7 +31,7 @@ h1 {
 
 h2 {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 700;
     margin-bottom: 1.5rem;
     color: #4E342E;
 }
@@ -854,5 +854,70 @@ input[type="file"]::file-selector-button:hover {
 
     #footer p {
         font-size: 0.85rem;
+    }
+}
+
+/* Resumen de movimientos */
+#resumenMovimientos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid #D7CCC8;
+    border-radius: 4px;
+}
+
+.resumen-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #FAF9F6;
+    border-radius: 4px;
+    border: 1px solid #EFEBE9;
+}
+
+.resumen-label {
+    font-size: 0.85rem;
+    color: #8D6E63;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resumen-valor {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3E2723;
+}
+
+.resumen-valor.cargo {
+    color: #D32F2F;
+}
+
+.resumen-valor.abono {
+    color: #2E7D32;
+}
+
+.resumen-valor.final {
+    color: #1976D2;
+}
+
+@media (max-width: 768px) {
+    #resumenMovimientos {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .resumen-item {
+        padding: 0.75rem;
+        text-align: center;
+    }
+
+    .resumen-valor {
+        font-size: 1.25rem;
     }
 }

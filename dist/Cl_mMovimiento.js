@@ -5,8 +5,9 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb {
     _tipo = "";
     _categoria = "";
     _descripcion = "";
-    _monto = 0;
-    constructor({ id, creadoEl, alias, fechaHora, referencia, tipo, categoria, descripcion, monto, } = {
+    _cargo = null;
+    _abono = null;
+    constructor(datos = {
         id: null,
         creadoEl: null,
         alias: null,
@@ -15,15 +16,33 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb {
         tipo: "",
         categoria: "",
         descripcion: "",
-        monto: 0,
+        cargo: null,
+        abono: null,
     }) {
-        super({ id, creadoEl, alias });
-        this.fechaHora = fechaHora;
-        this.referencia = referencia;
-        this.tipo = tipo;
-        this.categoria = categoria;
-        this.descripcion = descripcion;
-        this.monto = monto;
+        super({ id: datos.id, creadoEl: datos.creadoEl, alias: datos.alias });
+        this.fechaHora = datos.fechaHora;
+        this.referencia = datos.referencia;
+        this.tipo = datos.tipo;
+        this.categoria = datos.categoria;
+        this.descripcion = datos.descripcion;
+        if (datos.cargo !== undefined && datos.cargo !== null) {
+            this.cargo = datos.cargo;
+        }
+        else if (datos.tipo === "Cargo" && datos.monto !== undefined) {
+            this.cargo = datos.monto;
+        }
+        else {
+            this.cargo = null;
+        }
+        if (datos.abono !== undefined && datos.abono !== null) {
+            this.abono = datos.abono;
+        }
+        else if (datos.tipo === "Abono" && datos.monto !== undefined) {
+            this.abono = datos.monto;
+        }
+        else {
+            this.abono = null;
+        }
     }
     set fechaHora(fechaHora) {
         this._fechaHora = fechaHora;
@@ -55,17 +74,27 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb {
     get descripcion() {
         return this._descripcion;
     }
-    set monto(monto) {
-        this._monto = monto;
+    set cargo(cargo) {
+        this._cargo = cargo;
     }
-    get monto() {
-        return this._monto;
+    get cargo() {
+        return this._cargo;
+    }
+    set abono(abono) {
+        this._abono = abono;
+    }
+    get abono() {
+        return this._abono;
     }
     montoOperacion() {
-        return this.tipo === "Cargo" ? -this._monto : this._monto;
+        if (this._cargo !== null && this._cargo !== undefined)
+            return -this._cargo;
+        if (this._abono !== null && this._abono !== undefined)
+            return this._abono;
+        return 0;
     }
     get fechaHoraOK() {
-        const regex = /^(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2})$/;
+        const regex = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/;
         return regex.test(this._fechaHora);
     }
     get referenciaOK() {
@@ -83,7 +112,13 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb {
         return this._descripcion.length > 0 && this._descripcion.length < 50;
     }
     get montoOK() {
-        return this._monto > 0;
+        if (this._tipo === "Cargo") {
+            return (this._cargo !== null && this._cargo > 0) && this._abono === null;
+        }
+        if (this._tipo === "Abono") {
+            return (this._abono !== null && this._abono > 0) && this._cargo === null;
+        }
+        return false;
     }
     get movimientoOK() {
         if (!this.fechaHoraOK)
@@ -110,7 +145,8 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb {
             referencia: this.referencia,
             categoria: this.categoria,
             descripcion: this.descripcion,
-            monto: this.monto,
+            cargo: this.cargo,
+            abono: this.abono,
         };
     }
 }

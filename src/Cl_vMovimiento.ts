@@ -61,7 +61,7 @@ export default class Cl_vMovimiento extends Cl_vGeneral {
         this._inReferencia.value = movimiento.referencia;
         this._inCategoria.value = movimiento.categoria;
         this._inDescripcion.value = movimiento.descripcion;
-        this._inMonto.value = movimiento.monto;
+        this._inMonto.value = (movimiento.cargo !== null ? movimiento.cargo : movimiento.abono).toString();
         this._movimientoId = movimiento.id;
         this._desdeConciliacion = false;
 
@@ -77,6 +77,10 @@ export default class Cl_vMovimiento extends Cl_vGeneral {
     }
 
     registrar() {
+        const montoVal = parseFloat(this._inMonto.value);
+        const cargo = this._tipoMovimiento === "Cargo" ? montoVal : null;
+        const abono = this._tipoMovimiento === "Abono" ? montoVal : null;
+
         const movimiento = {
             id: null,
             creadoEl: null,
@@ -85,7 +89,8 @@ export default class Cl_vMovimiento extends Cl_vGeneral {
             referencia: this._inReferencia.value,
             categoria: this._inCategoria.value,
             descripcion: this._inDescripcion.value,
-            monto: parseFloat(this._inMonto.value),
+            cargo: cargo,
+            abono: abono,
             tipo: this._tipoMovimiento
         };
         
@@ -100,6 +105,9 @@ export default class Cl_vMovimiento extends Cl_vGeneral {
     actualizar() {
         console.log("Botón actualizar presionado");
 
+        const montoVal = parseFloat(this._inMonto.value);
+        const cargo = this._tipoMovimiento === "Cargo" ? montoVal : null;
+        const abono = this._tipoMovimiento === "Abono" ? montoVal : null;
 
         const movimiento = {
             id: this._movimientoId,
@@ -109,7 +117,8 @@ export default class Cl_vMovimiento extends Cl_vGeneral {
             referencia: this._inReferencia.value,
             categoria: this._inCategoria.value,
             descripcion: this._inDescripcion.value,
-            monto: parseFloat(this._inMonto.value),
+            cargo: cargo,
+            abono: abono,
             tipo: this._tipoMovimiento
         };
         console.log("Enviando movimiento a actualizar:", movimiento);
@@ -140,7 +149,12 @@ export default class Cl_vMovimiento extends Cl_vGeneral {
         this._inReferencia.value = movimiento.referencia || "";
         this._inCategoria.value = movimiento.categoria || "";
         this._inDescripcion.value = movimiento.descripcion || "";
-        this._inMonto.value = movimiento.monto || "";
+        
+        if (movimiento.cargo !== undefined || movimiento.abono !== undefined) {
+            this._inMonto.value = (movimiento.cargo !== null ? movimiento.cargo : movimiento.abono)?.toString() || "";
+        } else {
+            this._inMonto.value = movimiento.monto || "";
+        }
         
 
         this._desdeConciliacion = movimiento.desdeConciliacion || false;

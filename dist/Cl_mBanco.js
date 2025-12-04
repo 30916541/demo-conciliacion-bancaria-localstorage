@@ -5,10 +5,11 @@ export default class Cl_mBanco {
     movimientos = [];
     categorias = [];
     saldo = 0;
+    _saldoInicial = 5000;
     constructor() {
         this.movimientos = [];
         this.categorias = [];
-        this.saldo = 0;
+        this.saldo = this._saldoInicial;
     }
     addMovimiento({ dtmovimiento, callback, }) {
         let movimiento = new Cl_mMovimiento(dtmovimiento);
@@ -72,6 +73,9 @@ export default class Cl_mBanco {
     saldoTotal() {
         return this.saldo;
     }
+    saldoInicial() {
+        return this._saldoInicial;
+    }
     cargarBanco(callback) {
         this.llenarCategorias(categoriasData);
         this.cargarDeLocalStorage();
@@ -85,7 +89,7 @@ export default class Cl_mBanco {
     }
     llenarMovimientos(movimientos) {
         this.movimientos = [];
-        this.saldo = 0;
+        this.saldo = this._saldoInicial;
         movimientos.forEach((movimiento) => {
             let mov = new Cl_mMovimiento(movimiento);
             this.movimientos.push(mov);
@@ -106,7 +110,7 @@ export default class Cl_mBanco {
         if (movimientosStorage) {
             const movimientosJson = JSON.parse(movimientosStorage);
             this.movimientos = [];
-            this.saldo = 0;
+            this.saldo = this._saldoInicial;
             movimientosJson.forEach((mov) => {
                 const nuevoMov = new Cl_mMovimiento(mov);
                 this.movimientos.push(nuevoMov);

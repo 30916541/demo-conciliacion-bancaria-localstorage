@@ -23,7 +23,7 @@ export default class Cl_controlador {
     mostrarTablaMovimientos() {
         this.vista.mostrarTablaMovimientos();
         this.vista.llenarFiltroCategorias(this.modelo.listarCategorias());
-        this.vista.llenarTablaMovimientos(this.modelo.listarMovimientos());
+        this.vista.llenarTablaMovimientos(this.modelo.listarMovimientos(), this.modelo.saldoInicial());
     }
     mostrarVistaPrincipal() {
         this.vista.mostrarVistaPrincipal();
@@ -61,7 +61,7 @@ export default class Cl_controlador {
         if (detalleDescripcion)
             detalleDescripcion.textContent = movimiento.descripcion;
         if (detalleMonto)
-            detalleMonto.textContent = movimiento.monto;
+            detalleMonto.textContent = (movimiento.cargo !== null ? movimiento.cargo : movimiento.abono).toString();
         if (detalleTipo)
             detalleTipo.textContent = movimiento.tipo;
         if (btnRegresar)
@@ -117,13 +117,17 @@ export default class Cl_controlador {
         const movimientosSistema = this.modelo.listarMovimientos();
         const resultados = [];
         datosBanco.forEach(movBanco => {
-            const coincidencia = movimientosSistema.find(movSis => movSis.referencia === movBanco.referencia &&
-                Math.abs(movSis.monto - Math.abs(movBanco.monto)) < 0.01);
+            const movBancoMonto = movBanco.cargo !== null ? movBanco.cargo : movBanco.abono;
+            const coincidencia = movimientosSistema.find(movSis => {
+                const movSisMonto = (movSis.cargo !== null ? movSis.cargo : movSis.abono) || 0;
+                return movSis.referencia === movBanco.referencia &&
+                    Math.abs(movSisMonto - Math.abs(movBancoMonto)) < 0.01;
+            });
             if (coincidencia) {
                 resultados.push({
                     fechaHora: movBanco.fecha || movBanco.fechaHora,
                     categoria: coincidencia.categoria,
-                    monto: movBanco.monto,
+                    monto: movBancoMonto,
                     estado: "Conciliado",
                     referencia: movBanco.referencia
                 });
@@ -132,11 +136,13 @@ export default class Cl_controlador {
                 resultados.push({
                     fechaHora: movBanco.fecha || movBanco.fechaHora,
                     categoria: movBanco.categoria || "No registrado",
-                    monto: movBanco.monto,
+                    monto: movBancoMonto,
                     estado: "No Conciliado",
                     referencia: movBanco.referencia,
                     descripcion: movBanco.descripcion,
-                    tipo: movBanco.tipo || (movBanco.monto > 0 ? "Abono" : "Cargo")
+                    tipo: movBanco.tipo || (movBanco.cargo !== null ? "Cargo" : "Abono"),
+                    cargo: movBanco.cargo,
+                    abono: movBanco.abono
                 });
             }
         });
@@ -169,17 +175,19 @@ export default class Cl_controlador {
     }
     prepararConciliacionManual(movimientoBanco) {
         let tipo = "Abono";
-        if (movimientoBanco.monto < 0 || movimientoBanco.tipo === "Cargo") {
+        if (movimientoBanco.tipo === "Cargo" || (movimientoBanco.cargo !== null && movimientoBanco.cargo !== undefined)) {
             tipo = "Cargo";
         }
         this.mostrarRegistrarMovimiento(tipo);
+        const monto = movimientoBanco.monto !== undefined ? movimientoBanco.monto : (movimientoBanco.cargo !== null ? movimientoBanco.cargo : movimientoBanco.abono);
         const dummyMov = {
             tipo: tipo,
             fechaHora: movimientoBanco.fechaHora,
             referencia: movimientoBanco.referencia,
             categoria: movimientoBanco.categoria || "",
             descripcion: movimientoBanco.descripcion || "Conciliación manual",
-            monto: Math.abs(movimientoBanco.monto),
+            cargo: tipo === "Cargo" ? Math.abs(monto) : null,
+            abono: tipo === "Abono" ? Math.abs(monto) : null,
             id: null,
             desdeConciliacion: true
         };

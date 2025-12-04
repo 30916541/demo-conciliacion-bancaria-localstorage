@@ -1,7 +1,7 @@
 [
   {
     "numero": 1,
-    "fecha": "2025-11-01",
+    "fecha": "2025-11-01 12:00",
     "descripcion": "Depósito de Nómina",
     "referencia": "DEP-001",
     "categoria": "Ingreso",
@@ -11,7 +11,7 @@
   },
   {
     "numero": 2,
-    "fecha": "2025-11-02",
+    "fecha": "2025-11-02 09:00",
     "descripcion": "Mercado Frescos S.A.",
     "referencia": "TRX-002",
     "categoria": "Alimentación",
@@ -21,7 +21,7 @@
   },
   {
     "numero": 3,
-    "fecha": "2025-11-02",
+    "fecha": "2025-11-02 10:00",
     "descripcion": "MOVISTAR - Teléfono",
     "referencia": "TRX-003",
     "categoria": "Servicios",
@@ -31,7 +31,7 @@
   },
   {
     "numero": 4,
-    "fecha": "2025-11-03",
+    "fecha": "2025-11-03 11:00",
     "descripcion": "Tienda Liverpool - Ropa",
     "referencia": "TRX-004",
     "categoria": "Vestido",
@@ -41,7 +41,7 @@
   },
   {
     "numero": 5,
-    "fecha": "2025-11-04",
+    "fecha": "2025-11-04 15:00",
     "descripcion": "UBER",
     "referencia": "TRX-005",
     "categoria": "Transporte",
@@ -51,7 +51,7 @@
   },
   {
     "numero": 6,
-    "fecha": "2025-11-05",
+    "fecha": "2025-11-05 16:00",
     "descripcion": "Cine Cinépolis",
     "referencia": "TRX-006",
     "categoria": "Entretenimiento",
@@ -61,7 +61,7 @@
   },
   {
     "numero": 7,
-    "fecha": "2025-11-05",
+    "fecha": "2025-11-05 17:00",
     "descripcion": "Depósito Cliente XYZ",
     "referencia": "DEP-002",
     "categoria": "Ingreso",
@@ -71,7 +71,7 @@
   },
   {
     "numero": 8,
-    "fecha": "2025-11-06",
+    "fecha": "2025-11-06 13:30",
     "descripcion": "Universidad - Matrícula",
     "referencia": "TRX-007",
     "categoria": "Estudios",
@@ -81,7 +81,7 @@
   },
   {
     "numero": 9,
-    "fecha": "2025-11-07",
+    "fecha": "2025-11-07 14:00",
     "descripcion": "Farmacia Guadalajara",
     "referencia": "TRX-008",
     "categoria": "Salud",
@@ -91,7 +91,7 @@
   },
   {
     "numero": 10,
-    "fecha": "2025-11-08",
+    "fecha": "2025-11-08 15:00",
     "descripcion": "Gasolinera PEMEX",
     "referencia": "TRX-009",
     "categoria": "Transporte",
@@ -101,7 +101,7 @@
   },
   {
     "numero": 11,
-    "fecha": "2025-11-09",
+    "fecha": "2025-11-09 16:45",
     "descripcion": "Amazon - Compra Online",
     "referencia": "TRX-010",
     "categoria": "Entretenimiento",
@@ -111,7 +111,7 @@
   },
   {
     "numero": 12,
-    "fecha": "2025-11-10",
+    "fecha": "2025-11-10 17:00",
     "descripcion": "Pago de Renta - Apto",
     "referencia": "TRX-011",
     "categoria": "Vivienda",
@@ -121,7 +121,7 @@
   },
   {
     "numero": 13,
-    "fecha": "2025-11-11",
+    "fecha": "2025-11-11 18:00",
     "descripcion": "Depósito de Freelance",
     "referencia": "DEP-003",
     "categoria": "Ingreso",
@@ -131,7 +131,7 @@
   },
   {
     "numero": 14,
-    "fecha": "2025-11-12",
+    "fecha": "2025-11-12 19:00",
     "descripcion": "Walmart - Abarrotes",
     "referencia": "TRX-012",
     "categoria": "Alimentación",
@@ -141,7 +141,7 @@
   },
   {
     "numero": 15,
-    "fecha": "2025-11-13",
+    "fecha": "2025-11-13 20:00",
     "descripcion": "Comisión Bancaria",
     "referencia": "TRX-013",
     "categoria": "Servicios",
@@ -151,7 +151,7 @@
   },
   {
     "numero": 16,
-    "fecha": "2025-11-14",
+    "fecha": "2025-11-14 07:00",
     "descripcion": "Restaurante La Trattoria",
     "referencia": "TRX-014",
     "categoria": "Alimentación",
@@ -161,7 +161,7 @@
   },
   {
     "numero": 17,
-    "fecha": "2025-11-15",
+    "fecha": "2025-11-15 08:00",
     "descripcion": "Netflix Suscripción",
     "referencia": "TRX-015",
     "categoria": "Entretenimiento",
@@ -171,7 +171,7 @@
   },
   {
     "numero": 18,
-    "fecha": "2025-11-16",
+    "fecha": "2025-11-16 09:00",
     "descripcion": "Coppel - Electrodoméstico",
     "referencia": "TRX-016",
     "categoria": "Vivienda",
@@ -181,7 +181,7 @@
   },
   {
     "numero": 19,
-    "fecha": "2025-11-19",
+    "fecha": "2025-11-19 10:00",
     "descripcion": "Transferencia Familia",
     "referencia": "DEP-004",
     "categoria": "Ingreso",
@@ -191,7 +191,7 @@
   },
   {
     "numero": 20,
-    "fecha": "2025-11-20",
+    "fecha": "2025-11-20 11:00",
     "descripcion": "Dentista Clínica Plus",
     "referencia": "TRX-017",
     "categoria": "Salud",
@@ -201,7 +201,7 @@
   },
   {
     "numero": 21,
-    "fecha": "2025-11-22",
+    "fecha": "2025-11-22 12:00",
     "descripcion": "Yoga Classes - Mensual",
     "referencia": "TRX-018",
     "categoria": "Entretenimiento",
@@ -211,7 +211,7 @@
   },
   {
     "numero": 22,
-    "fecha": "2025-11-25",
+    "fecha": "2025-11-25 13:00",
     "descripcion": "Soriana - Supermercado",
     "referencia": "TRX-019",
     "categoria": "Alimentación",

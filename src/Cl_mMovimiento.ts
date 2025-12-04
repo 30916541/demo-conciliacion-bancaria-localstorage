@@ -9,7 +9,8 @@ export interface iMovimiento {
     tipo: string;
     categoria: string;
     descripcion: string;
-    monto: number;
+    cargo: number | null;
+    abono: number | null;
 }
 
 export default class Cl_mMovimiento extends Cl_mTablaWeb{
@@ -18,19 +19,10 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb{
     private _tipo = "";
     private _categoria = "";
     private _descripcion = "";
-    private _monto = 0;
+    private _cargo: number | null = null;
+    private _abono: number | null = null;
     
-    constructor({
-        id,
-        creadoEl,
-        alias,
-        fechaHora,
-        referencia,
-        tipo,
-        categoria,
-        descripcion,
-        monto,
-    }: iMovimiento = {
+    constructor(datos: any = {
         id: null,
         creadoEl: null,
         alias: null,
@@ -39,15 +31,31 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb{
         tipo: "",
         categoria: "",
         descripcion: "",
-        monto: 0,
+        cargo: null,
+        abono: null,
     }) {
-        super({id, creadoEl, alias});
-        this.fechaHora = fechaHora;
-        this.referencia = referencia;
-        this.tipo = tipo;
-        this.categoria = categoria;
-        this.descripcion = descripcion;
-        this.monto = monto;
+        super({id: datos.id, creadoEl: datos.creadoEl, alias: datos.alias});
+        this.fechaHora = datos.fechaHora;
+        this.referencia = datos.referencia;
+        this.tipo = datos.tipo;
+        this.categoria = datos.categoria;
+        this.descripcion = datos.descripcion;
+        
+        if (datos.cargo !== undefined && datos.cargo !== null) {
+            this.cargo = datos.cargo;
+        } else if (datos.tipo === "Cargo" && datos.monto !== undefined) {
+            this.cargo = datos.monto;
+        } else {
+            this.cargo = null;
+        }
+
+        if (datos.abono !== undefined && datos.abono !== null) {
+            this.abono = datos.abono;
+        } else if (datos.tipo === "Abono" && datos.monto !== undefined) {
+            this.abono = datos.monto;
+        } else {
+            this.abono = null;
+        }
     }
 
     set fechaHora(fechaHora: string) {
@@ -90,20 +98,30 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb{
         return this._descripcion;
     }
 
-    set monto(monto: number) {
-        this._monto = monto;
+    set cargo(cargo: number | null) {
+        this._cargo = cargo;
     }
 
-    get monto(): number {
-        return this._monto;
+    get cargo(): number | null {
+        return this._cargo;
+    }
+
+    set abono(abono: number | null) {
+        this._abono = abono;
+    }
+
+    get abono(): number | null {
+        return this._abono;
     }
 
     montoOperacion(): number {
-        return this.tipo === "Cargo" ? -this._monto : this._monto;
+        if (this._cargo !== null && this._cargo !== undefined) return -this._cargo;
+        if (this._abono !== null && this._abono !== undefined) return this._abono;
+        return 0;
     }
 
     get fechaHoraOK(): boolean {
-        const regex = /^(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2})$/;
+        const regex = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/;
         return regex.test(this._fechaHora);
     }
 
@@ -126,7 +144,13 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb{
     }
 
     get montoOK(): boolean {
-        return this._monto > 0;
+        if (this._tipo === "Cargo") {
+            return (this._cargo !== null && this._cargo > 0) && this._abono === null;
+        }
+        if (this._tipo === "Abono") {
+            return (this._abono !== null && this._abono > 0) && this._cargo === null;
+        }
+        return false;
     }
 
     get movimientoOK(): string | true {
@@ -149,7 +173,8 @@ export default class Cl_mMovimiento extends Cl_mTablaWeb{
             referencia: this.referencia,
             categoria: this.categoria,
             descripcion: this.descripcion,
-            monto: this.monto,
+            cargo: this.cargo,
+            abono: this.abono,
         };
     }
 }

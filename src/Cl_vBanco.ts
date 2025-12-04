@@ -115,11 +115,10 @@ export default class Cl_vBanco extends Cl_vGeneral {
         this._lblSaldoTotal.textContent = saldo.toFixed(2) + " Bs";
     }
 
-    llenarTablaMovimientos(movimientos: any[]) {
+    llenarTablaMovimientos(movimientos: any[], saldoInicial: number) {
         const tbody = document.getElementById("tablaMovimientos_body") as HTMLTableSectionElement;
         if (!tbody) return;
         tbody.innerHTML = "";
-
 
         const busqueda = (document.getElementById("filtro_busqueda") as HTMLInputElement)?.value.toLowerCase() || "";
         const categoria = (document.getElementById("filtro_categoria") as HTMLSelectElement)?.value || "";
@@ -137,10 +136,9 @@ export default class Cl_vBanco extends Cl_vGeneral {
             
             let cumpleFecha = true;
             if (fechaInicio || fechaFin) {
-
                 const partes = mov.fechaHora.split(' ')[0].split('-');
                 if (partes.length === 3) {
-                    const fechaMov = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
+                    const fechaMov = new Date(`${partes[0]}-${partes[1]}-${partes[2]}`);
                     if (fechaInicio) {
                         const fInicio = new Date(fechaInicio);
                         if (fechaMov < fInicio) cumpleFecha = false;
@@ -155,13 +153,32 @@ export default class Cl_vBanco extends Cl_vGeneral {
             return cumpleBusqueda && cumpleCategoria && cumpleTipo && cumpleFecha;
         });
 
+        let totalCargos = 0;
+        let totalAbonos = 0;
+        
+        movimientosFiltrados.forEach(mov => {
+            if (mov.tipo === "Cargo" && mov.cargo !== null) {
+                totalCargos += mov.cargo;
+            } else if (mov.tipo === "Abono" && mov.abono !== null) {
+                totalAbonos += mov.abono;
+            }
+        });
+
+        const resumenSaldoInicial = document.getElementById("resumen_saldoInicial");
+        const resumenTotalCargos = document.getElementById("resumen_totalCargos");
+        const resumenTotalAbonos = document.getElementById("resumen_totalAbonos");
+
+        if (resumenSaldoInicial) resumenSaldoInicial.textContent = saldoInicial.toFixed(2) + " Bs";
+        if (resumenTotalCargos) resumenTotalCargos.textContent = totalCargos.toFixed(2) + " Bs";
+        if (resumenTotalAbonos) resumenTotalAbonos.textContent = totalAbonos.toFixed(2) + " Bs";
+
         movimientosFiltrados.forEach(mov => {
             const row = tbody.insertRow();
             const claseMonto = mov.tipo === "Cargo" ? "monto-cargo" : (mov.tipo === "Abono" ? "monto-abono" : "");
             row.innerHTML = `
                 <td>${mov.fechaHora}</td>
                 <td>${mov.categoria}</td>
-                <td class="${claseMonto}">${mov.monto}</td>
+                <td class="${claseMonto}">${mov.cargo !== null ? mov.cargo : mov.abono}</td>
                 <td></td>
             `;
             const cellAcciones = row.cells[3];

@@ -37,7 +37,7 @@ export default class Cl_controlador {
     mostrarTablaMovimientos() {
         this.vista.mostrarTablaMovimientos();
         this.vista.llenarFiltroCategorias(this.modelo.listarCategorias());
-        this.vista.llenarTablaMovimientos(this.modelo.listarMovimientos());
+        this.vista.llenarTablaMovimientos(this.modelo.listarMovimientos(), this.modelo.saldoInicial());
     }
 
     mostrarVistaPrincipal() {
@@ -75,7 +75,7 @@ export default class Cl_controlador {
         if(detalleReferencia) detalleReferencia.textContent = movimiento.referencia;
         if(detalleCategoria) detalleCategoria.textContent = movimiento.categoria;
         if(detalleDescripcion) detalleDescripcion.textContent = movimiento.descripcion;
-        if(detalleMonto) detalleMonto.textContent = movimiento.monto;
+        if(detalleMonto) detalleMonto.textContent = (movimiento.cargo !== null ? movimiento.cargo : movimiento.abono).toString();
         if(detalleTipo) detalleTipo.textContent = movimiento.tipo;
 
         if(btnRegresar) btnRegresar.onclick = () => this.mostrarTablaMovimientos();
@@ -132,20 +132,20 @@ export default class Cl_controlador {
         const movimientosSistema = this.modelo.listarMovimientos();
         const resultados: any[] = [];
 
-
-        
         datosBanco.forEach(movBanco => {
+            const movBancoMonto = movBanco.cargo !== null ? movBanco.cargo : movBanco.abono;
 
-            const coincidencia = movimientosSistema.find(movSis => 
-                movSis.referencia === movBanco.referencia && 
-                Math.abs(movSis.monto - Math.abs(movBanco.monto)) < 0.01
-            );
+            const coincidencia = movimientosSistema.find(movSis => {
+                const movSisMonto = (movSis.cargo !== null ? movSis.cargo : movSis.abono) || 0;
+                return movSis.referencia === movBanco.referencia && 
+                Math.abs(movSisMonto - Math.abs(movBancoMonto)) < 0.01;
+            });
 
             if (coincidencia) {
                 resultados.push({
                     fechaHora: movBanco.fecha || movBanco.fechaHora,
                     categoria: coincidencia.categoria,
-                    monto: movBanco.monto,
+                    monto: movBancoMonto,
                     estado: "Conciliado",
                     referencia: movBanco.referencia
                 });
@@ -153,15 +153,16 @@ export default class Cl_controlador {
                 resultados.push({
                     fechaHora: movBanco.fecha || movBanco.fechaHora,
                     categoria: movBanco.categoria || "No registrado",
-                    monto: movBanco.monto,
+                    monto: movBancoMonto,
                     estado: "No Conciliado",
                     referencia: movBanco.referencia,
                     descripcion: movBanco.descripcion,
-                    tipo: movBanco.tipo || (movBanco.monto > 0 ? "Abono" : "Cargo")
+                    tipo: movBanco.tipo || (movBanco.cargo !== null ? "Cargo" : "Abono"),
+                    cargo: movBanco.cargo,
+                    abono: movBanco.abono
                 });
             }
         });
-
 
         this.resultadosConciliacion = resultados;
         this.vConciliacion.llenarTablaConciliacion(resultados);
@@ -177,10 +178,8 @@ export default class Cl_controlador {
                     this.vista.actualizarSaldo(this.modelo.saldoTotal());
                     this.vMovimiento.ocultarFormulario();
                     
-
                     this.actualizarTablaConciliacion(movimiento.referencia);
                     
-
                     this.mostrarConciliacion();
                 }
             }
@@ -188,26 +187,24 @@ export default class Cl_controlador {
     }
 
     actualizarTablaConciliacion(referencia: string) {
-
         const resultado = this.resultadosConciliacion.find(r => r.referencia === referencia);
         if (resultado) {
             resultado.estado = "Conciliado";
             resultado.categoria = this.modelo.listarMovimientos().find(m => m.referencia === referencia)?.categoria || resultado.categoria;
         }
         
-
         this.vConciliacion.llenarTablaConciliacion(this.resultadosConciliacion);
     }
 
     prepararConciliacionManual(movimientoBanco: any) {
-
         let tipo = "Abono";
-        if (movimientoBanco.monto < 0 || movimientoBanco.tipo === "Cargo") {
+        if (movimientoBanco.tipo === "Cargo" || (movimientoBanco.cargo !== null && movimientoBanco.cargo !== undefined)) {
             tipo = "Cargo";
         }
 
         this.mostrarRegistrarMovimiento(tipo);
         
+        const monto = movimientoBanco.monto !== undefined ? movimientoBanco.monto : (movimientoBanco.cargo !== null ? movimientoBanco.cargo : movimientoBanco.abono);
 
         const dummyMov = {
             tipo: tipo,
@@ -215,7 +212,8 @@ export default class Cl_controlador {
             referencia: movimientoBanco.referencia,
             categoria: movimientoBanco.categoria || "",
             descripcion: movimientoBanco.descripcion || "Conciliación manual",
-            monto: Math.abs(movimientoBanco.monto),
+            cargo: tipo === "Cargo" ? Math.abs(monto) : null,
+            abono: tipo === "Abono" ? Math.abs(monto) : null,
             id: null,
             desdeConciliacion: true
         };

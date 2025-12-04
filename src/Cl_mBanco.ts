@@ -6,11 +6,12 @@ export default class Cl_mBanco {
     private movimientos: Cl_mMovimiento[] = [];
     private categorias: Cl_mCategoria[] = [];
     private saldo: number = 0;
+    private _saldoInicial: number = 5000;
 
     constructor() {
         this.movimientos = [];
         this.categorias = [];
-        this.saldo = 0;
+        this.saldo = this._saldoInicial;
     }
 
     addMovimiento({
@@ -106,6 +107,10 @@ export default class Cl_mBanco {
         return this.saldo;
     }
 
+    saldoInicial(): number {
+        return this._saldoInicial;
+    }
+
     cargarBanco(callback: (error: string | false) => void): void {
 
         this.llenarCategorias(categoriasData);
@@ -123,7 +128,7 @@ export default class Cl_mBanco {
 
     llenarMovimientos(movimientos: iMovimiento[]) {
         this.movimientos = [];
-        this.saldo = 0;
+        this.saldo = this._saldoInicial;
         movimientos.forEach((movimiento: iMovimiento) => {
             let mov = new Cl_mMovimiento(movimiento);
             this.movimientos.push(mov);
@@ -148,7 +153,7 @@ export default class Cl_mBanco {
         if (movimientosStorage) {
             const movimientosJson = JSON.parse(movimientosStorage);
             this.movimientos = [];
-            this.saldo = 0;
+            this.saldo = this._saldoInicial;
             movimientosJson.forEach((mov: iMovimiento) => {
                 const nuevoMov = new Cl_mMovimiento(mov);
                 this.movimientos.push(nuevoMov);
