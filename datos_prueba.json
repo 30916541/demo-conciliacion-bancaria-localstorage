@@ -1,0 +1,183 @@
+[
+    {
+        "fecha": "2025-12-01 00:00",
+        "tipo": "Abono",
+        "descripcion": "Depósito de Nómina",
+        "categoria": "Ingreso",
+        "referencia": "REF-001",
+        "cargo": null,
+        "abono": 3200.00
+    },
+    {
+        "fecha": "2025-12-01 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Pago Renta Departamento",
+        "categoria": "Vivienda",
+        "referencia": "REF-002",
+        "cargo": 1100.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-02 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Supermercado La Colonia",
+        "categoria": "Alimentación",
+        "referencia": "REF-003",
+        "cargo": 240.50,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-02 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Gasolina vehículo",
+        "categoria": "Transporte",
+        "referencia": "REF-004",
+        "cargo": 75.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-03 00:00",
+        "tipo": "Cargo",
+        "monto": 95.99,
+        "descripcion": "Servicio Internet y Teléfono",
+        "categoria": "Servicios",
+        "referencia": "REF-005",
+        "cargo": 95.99,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-03 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Ropa Invierno",
+        "categoria": "Vestido",
+        "referencia": "REF-006",
+        "cargo": 180.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-04 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Cine y palomitas",
+        "categoria": "Entretenimiento",
+        "referencia": "REF-007",
+        "cargo": 62.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-04 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Cafetería Universidad",
+        "categoria": "Alimentación",
+        "referencia": "REF-008",
+        "cargo": 32.75,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-05 00:00",
+        "tipo": "Abono",
+        "descripcion": "Pago Proyecto Freelance",
+        "categoria": "Ingreso",
+        "referencia": "REF-009",
+        "cargo": null,
+        "abono": 850.00
+    },
+    {
+        "fecha": "2025-12-05 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Universidad - Mensualidad",
+        "categoria": "Estudios",
+        "referencia": "REF-010",
+        "cargo": 430.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-06 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Consulta médica y medicinas",
+        "categoria": "Salud",
+        "referencia": "REF-011",
+        "cargo": 155.40,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-06 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Taxi devolución tarde",
+        "categoria": "Transporte",
+        "referencia": "REF-012",
+        "cargo": 58.90,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-07 00:00",
+        "tipo": "Abono  ",
+        "descripcion": "Transferencia padres",
+        "categoria": "Ingreso",
+        "referencia": "REF-013",
+        "cargo": null,
+        "abono": 400.00
+    },
+    {
+        "fecha": "2025-12-08 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Restaurante fin de semana",
+        "categoria": "Alimentación",
+        "referencia": "REF-014",
+        "cargo": 120.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-09 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Suscripción streaming",
+        "categoria": "Entretenimiento",
+        "referencia": "REF-015",
+        "cargo": 49.99,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-10 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Escritorio y silla oficina",
+        "categoria": "Vivienda",
+        "referencia": "REF-016",
+        "cargo": 310.00,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-11 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Libros y material de estudio",
+        "categoria": "Estudios",
+        "referencia": "REF-017",
+        "cargo": 210.30,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-12 00:00",
+        "tipo": "Abono",
+        "descripcion": "Venta artículos usados",
+        "categoria": "Ingreso",
+        "referencia": "REF-018",
+        "cargo": null,
+        "abono": 300.00
+    },
+    {
+        "fecha": "2025-12-13 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Gimnasio mensual",
+        "categoria": "Salud",
+        "referencia": "REF-019",
+        "cargo": 95.60,
+        "abono": null
+    },
+    {
+        "fecha": "2025-12-14 00:00",
+        "tipo": "Cargo",
+        "descripcion": "Donativo fundación",
+        "categoria": "Otros",
+        "referencia": "REF-020",
+        "cargo": 60.00,
+        "abono": null
+    }
+]

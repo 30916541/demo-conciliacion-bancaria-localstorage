@@ -6,6 +6,7 @@ export default class Cl_vBanco extends Cl_vGeneral {
     private _btAgregarCargo: HTMLButtonElement;
 
     private _btConciliar: HTMLButtonElement;
+    private _btReportar: HTMLButtonElement;
     private _btVerMovimientos: HTMLButtonElement;
     private _lblSaldoTotal: HTMLElement;
 
@@ -16,8 +17,10 @@ export default class Cl_vBanco extends Cl_vGeneral {
 
     private _secVistaConciliacion: HTMLElement;
     private _secVistaDetalle: HTMLElement;
+    private _secVistaReporte: HTMLElement;
 
     private _divAgregarMovimiento: HTMLElement;
+    private _divAccionesContenedor: HTMLElement;
 
     constructor(controlador?: Cl_controlador) {
         super({ formName: "banco" });
@@ -26,13 +29,15 @@ export default class Cl_vBanco extends Cl_vGeneral {
         this._btAgregarAbono = document.getElementById("agregarMovimiento_btAgregarAbono") as HTMLButtonElement;
         this._btAgregarCargo = document.getElementById("agregarMovimiento_btAgregarCargo") as HTMLButtonElement;
         this._divAgregarMovimiento = document.getElementById("agregarMovimiento") as HTMLElement;
+        this._divAccionesContenedor = document.getElementById("acciones_contenedor") as HTMLElement;
 
         this._btConciliar = document.getElementById("agregarMovimiento_btConciliar") as HTMLButtonElement;
+        this._btReportar = document.getElementById("agregarMovimiento_btReportar") as HTMLButtonElement;
         this._btVerMovimientos = document.getElementById("saldoTotal_btnVerMovimientos") as HTMLButtonElement;
         this._lblSaldoTotal = document.getElementById("saldoTotal_pSaldoTotal") as HTMLElement;
         const btRegresarTablaMovimientos = document.getElementById("tablaMovimientos_btRegresar") as HTMLButtonElement;
+        const btRegresarReporte = document.getElementById("reporte_btRegresar") as HTMLButtonElement;
         
-
         const btnFiltrar = document.getElementById("btn_aplicar_filtros") as HTMLButtonElement;
         const btnLimpiar = document.getElementById("btn_limpiar_filtros") as HTMLButtonElement;
 
@@ -43,13 +48,16 @@ export default class Cl_vBanco extends Cl_vGeneral {
 
         this._secVistaConciliacion = document.getElementById("vistaConciliacion") as HTMLElement;
         this._secVistaDetalle = document.getElementById("vistaDetalle") as HTMLElement;
+        this._secVistaReporte = document.getElementById("vistaReporte") as HTMLElement;
 
         this._btAgregarAbono.onclick = () => this.controlador?.mostrarRegistrarMovimiento("Abono");
         this._btAgregarCargo.onclick = () => this.controlador?.mostrarRegistrarMovimiento("Cargo");
 
         this._btConciliar.onclick = () => this.controlador?.mostrarConciliacion();
+        this._btReportar.onclick = () => this.controlador?.mostrarReporte();
         this._btVerMovimientos.onclick = () => this.controlador?.mostrarTablaMovimientos();
         if(btRegresarTablaMovimientos) btRegresarTablaMovimientos.onclick = () => this.controlador?.mostrarVistaPrincipal();
+        if(btRegresarReporte) btRegresarReporte.onclick = () => this.controlador?.mostrarVistaPrincipal();
         
         if (btnFiltrar) btnFiltrar.onclick = () => this.controlador?.mostrarTablaMovimientos();
         if (btnLimpiar) btnLimpiar.onclick = () => {
@@ -66,6 +74,7 @@ export default class Cl_vBanco extends Cl_vGeneral {
 
     mostrarVistaPrincipal() {
         this.ocultarTodo();
+        if(this._divAccionesContenedor) this._divAccionesContenedor.style.display = "flex";
         this._secMovimientoBancarios.style.display = "block";
         this._divAgregarMovimiento.style.display = "flex";
         this._secOperaciones.style.display = "block";
@@ -109,6 +118,7 @@ export default class Cl_vBanco extends Cl_vGeneral {
 
         if(this._secVistaConciliacion) this._secVistaConciliacion.style.display = "none";
         if(this._secVistaDetalle) this._secVistaDetalle.style.display = "none";
+        if(this._secVistaReporte) this._secVistaReporte.style.display = "none";
     }
 
     actualizarSaldo(saldo: number) {

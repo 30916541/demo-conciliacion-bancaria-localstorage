@@ -3,6 +3,7 @@ import Cl_vBanco from "./Cl_vBanco.js";
 
 import Cl_vMovimiento from "./Cl_vMovimiento.js";
 import Cl_vConciliacion from "./Cl_vConciliacion.js";
+import Cl_vReporte from "./Cl_vReporte.js";
 
 declare const Swal: any;
 
@@ -12,6 +13,7 @@ export default class Cl_controlador {
 
     private vMovimiento: Cl_vMovimiento;
     private vConciliacion: Cl_vConciliacion;
+    private vReporte: Cl_vReporte;
     private resultadosConciliacion: any[] = [];
     
     constructor(modelo: Cl_mBanco, vista: Cl_vBanco) {
@@ -20,6 +22,7 @@ export default class Cl_controlador {
 
         this.vMovimiento = new Cl_vMovimiento(this);
         this.vConciliacion = new Cl_vConciliacion(this);
+        this.vReporte = new Cl_vReporte(this);
     }
     
     mostrarRegistrarMovimiento(tipo: string) {
@@ -42,6 +45,10 @@ export default class Cl_controlador {
 
     mostrarVistaPrincipal() {
         this.vista.mostrarVistaPrincipal();
+    }
+
+    mostrarReporte() {
+        this.vReporte.mostrar(this.modelo.saldoInicial(), this.modelo.listarMovimientos());
     }
 
     agregarMovimiento(movimiento: any) {

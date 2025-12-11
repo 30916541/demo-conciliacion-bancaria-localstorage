@@ -8,4 +8,5 @@ export const categoriasData = [
     { id: null, creadoEl: null, alias: null, nombre: "Estudios" },
     { id: null, creadoEl: null, alias: null, nombre: "Salud" },
     { id: null, creadoEl: null, alias: null, nombre: "Vivienda" },
+    { id: null, creadoEl: null, alias: null, nombre: "Otros" },
 ];

@@ -3,6 +3,7 @@ export default class Cl_vBanco extends Cl_vGeneral {
     _btAgregarAbono;
     _btAgregarCargo;
     _btConciliar;
+    _btReportar;
     _btVerMovimientos;
     _lblSaldoTotal;
     _secMovimientoBancarios;
@@ -11,7 +12,9 @@ export default class Cl_vBanco extends Cl_vGeneral {
     _secTablaMovimientos;
     _secVistaConciliacion;
     _secVistaDetalle;
+    _secVistaReporte;
     _divAgregarMovimiento;
+    _divAccionesContenedor;
     constructor(controlador) {
         super({ formName: "banco" });
         if (controlador)
@@ -19,10 +22,13 @@ export default class Cl_vBanco extends Cl_vGeneral {
         this._btAgregarAbono = document.getElementById("agregarMovimiento_btAgregarAbono");
         this._btAgregarCargo = document.getElementById("agregarMovimiento_btAgregarCargo");
         this._divAgregarMovimiento = document.getElementById("agregarMovimiento");
+        this._divAccionesContenedor = document.getElementById("acciones_contenedor");
         this._btConciliar = document.getElementById("agregarMovimiento_btConciliar");
+        this._btReportar = document.getElementById("agregarMovimiento_btReportar");
         this._btVerMovimientos = document.getElementById("saldoTotal_btnVerMovimientos");
         this._lblSaldoTotal = document.getElementById("saldoTotal_pSaldoTotal");
         const btRegresarTablaMovimientos = document.getElementById("tablaMovimientos_btRegresar");
+        const btRegresarReporte = document.getElementById("reporte_btRegresar");
         const btnFiltrar = document.getElementById("btn_aplicar_filtros");
         const btnLimpiar = document.getElementById("btn_limpiar_filtros");
         this._secMovimientoBancarios = document.getElementById("movimientoBancarios");
@@ -31,12 +37,16 @@ export default class Cl_vBanco extends Cl_vGeneral {
         this._secTablaMovimientos = document.getElementById("tablaMovimientos");
         this._secVistaConciliacion = document.getElementById("vistaConciliacion");
         this._secVistaDetalle = document.getElementById("vistaDetalle");
+        this._secVistaReporte = document.getElementById("vistaReporte");
         this._btAgregarAbono.onclick = () => this.controlador?.mostrarRegistrarMovimiento("Abono");
         this._btAgregarCargo.onclick = () => this.controlador?.mostrarRegistrarMovimiento("Cargo");
         this._btConciliar.onclick = () => this.controlador?.mostrarConciliacion();
+        this._btReportar.onclick = () => this.controlador?.mostrarReporte();
         this._btVerMovimientos.onclick = () => this.controlador?.mostrarTablaMovimientos();
         if (btRegresarTablaMovimientos)
             btRegresarTablaMovimientos.onclick = () => this.controlador?.mostrarVistaPrincipal();
+        if (btRegresarReporte)
+            btRegresarReporte.onclick = () => this.controlador?.mostrarVistaPrincipal();
         if (btnFiltrar)
             btnFiltrar.onclick = () => this.controlador?.mostrarTablaMovimientos();
         if (btnLimpiar)
@@ -52,6 +62,8 @@ export default class Cl_vBanco extends Cl_vGeneral {
     }
     mostrarVistaPrincipal() {
         this.ocultarTodo();
+        if (this._divAccionesContenedor)
+            this._divAccionesContenedor.style.display = "flex";
         this._secMovimientoBancarios.style.display = "block";
         this._divAgregarMovimiento.style.display = "flex";
         this._secOperaciones.style.display = "block";
@@ -90,6 +102,8 @@ export default class Cl_vBanco extends Cl_vGeneral {
             this._secVistaConciliacion.style.display = "none";
         if (this._secVistaDetalle)
             this._secVistaDetalle.style.display = "none";
+        if (this._secVistaReporte)
+            this._secVistaReporte.style.display = "none";
     }
     actualizarSaldo(saldo) {
         this._lblSaldoTotal.textContent = saldo.toFixed(2) + " Bs";

@@ -1,16 +1,19 @@
 import Cl_vMovimiento from "./Cl_vMovimiento.js";
 import Cl_vConciliacion from "./Cl_vConciliacion.js";
+import Cl_vReporte from "./Cl_vReporte.js";
 export default class Cl_controlador {
     modelo;
     vista;
     vMovimiento;
     vConciliacion;
+    vReporte;
     resultadosConciliacion = [];
     constructor(modelo, vista) {
         this.modelo = modelo;
         this.vista = vista;
         this.vMovimiento = new Cl_vMovimiento(this);
         this.vConciliacion = new Cl_vConciliacion(this);
+        this.vReporte = new Cl_vReporte(this);
     }
     mostrarRegistrarMovimiento(tipo) {
         this.vista.mostrarRegistrarMovimiento();
@@ -27,6 +30,9 @@ export default class Cl_controlador {
     }
     mostrarVistaPrincipal() {
         this.vista.mostrarVistaPrincipal();
+    }
+    mostrarReporte() {
+        this.vReporte.mostrar(this.modelo.saldoInicial(), this.modelo.listarMovimientos());
     }
     agregarMovimiento(movimiento) {
         this.modelo.addMovimiento({

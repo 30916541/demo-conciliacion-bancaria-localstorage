@@ -54,6 +54,7 @@
                 <div id="botonesOperaciones">
 
                     <button id="agregarMovimiento_btConciliar">Conciliar</button>
+                    <button id="agregarMovimiento_btReportar">Reportar</button>
                 </div>
             </section>
         </div>
@@ -165,6 +166,49 @@
                 <p><strong>Monto:</strong> <span id="detalle_monto"></span></p>
                 <p><strong>Tipo:</strong> <span id="detalle_tipo"></span></p>
                 <button id="detalle_btRegresar">Regresar</button>
+            </div>
+        </section>
+
+        <section id="vistaReporte" style="display: none;">
+            <div id="reporte_header">
+                <h2>Reporte Financiero</h2>
+                <button id="reporte_btRegresar">Regresar</button>
+            </div>
+            
+            <div id="reporteResumen">
+                <div class="reporte-grid">
+                    <div class="reporte-card">
+                        <h3>Saldo Inicial</h3>
+                        <p class="reporte-valor" id="reporte_saldoInicial">0.00 Bs</p>
+                    </div>
+                    <div class="reporte-card">
+                        <h3>Saldo Final</h3>
+                        <p class="reporte-valor" id="reporte_saldoFinal">0.00 Bs</p>
+                    </div>
+                    <div class="reporte-card cargo">
+                        <h3>Total Cargos</h3>
+                        <p class="reporte-valor" id="reporte_totalCargos">0.00 Bs</p>
+                    </div>
+                    <div class="reporte-card abono">
+                        <h3>Total Abonos</h3>
+                        <p class="reporte-valor" id="reporte_totalAbonos">0.00 Bs</p>
+                    </div>
+                    <div class="reporte-card cargo">
+                        <h3>% Cargos</h3>
+                        <p class="reporte-valor" id="reporte_porcentajeCargos">0%</p>
+                    </div>
+                    <div class="reporte-card abono">
+                        <h3>% Abonos</h3>
+                        <p class="reporte-valor" id="reporte_porcentajeAbonos">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reporteCategorias">
+                <h3>Montos por Categoría</h3>
+                <div id="categoriasGrid" class="categorias-grid">
+                    <!-- Las categorías se llenarán dinámicamente -->
+                </div>
             </div>
         </section>
     </div>
